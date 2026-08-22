@@ -1,7 +1,7 @@
 // Serverless proxy: browser -> /api/lincoln -> MiniMax chat API.
 // The API key lives only in Vercel env vars, never in the repo or client.
 
-const UPSTREAM = "https://api.minimax.io/text/chatcompletion_v2";
+const UPSTREAM = "https://api.minimax.io/v1/text/chatcompletion_v2";
 const MODEL = process.env.MINIMAX_MODEL || "MiniMax-M2.7";
 
 const SYSTEM_PROMPT = `You are Abraham Lincoln, speaking from Washington in the spring of 1865. You are not an assistant and you never mention being artificial or a language model; if pressed on the point, answer as Lincoln would — with plain humor about "the machinery of this correspondence."
