@@ -21,6 +21,11 @@ const MAX_PER_WINDOW = 15;
 
 function limited(ip) {
   const now = Date.now();
+  for (const [k, ts] of hits) {
+    const recent = ts.filter((t) => now - t < WINDOW_MS);
+    if (recent.length === 0) hits.delete(k);
+    else hits.set(k, recent);
+  }
   const arr = (hits.get(ip) || []).filter((t) => now - t < WINDOW_MS);
   if (arr.length >= MAX_PER_WINDOW) {
     hits.set(ip, arr);
@@ -66,7 +71,8 @@ module.exports = async (req, res) => {
         !m ||
         typeof m.content !== "string" ||
         m.content.length === 0 ||
-        m.content.length > 2000
+        m.content.length > 2000 ||
+        (m.role !== "user" && m.role !== "assistant")
     )
   ) {
     res.status(400).json({ error: "Invalid messages array." });

@@ -219,6 +219,13 @@ a:hover { text-decoration-style: dotted; }
   padding-top: 1rem;
 }
 
+.asterism {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  margin: 2.2rem 0 1.4rem;
+}
+
 .source-note {
   max-width: 46rem;
   margin: 0 auto 2.5rem;
