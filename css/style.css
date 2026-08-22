@@ -243,6 +243,122 @@ a:hover { text-decoration-style: dotted; }
 .pager a:hover { text-decoration: underline; }
 .pager span { color: var(--ink-soft); }
 
+/* ---------- correspondence (ask page) ---------- */
+
+.correspondence {
+  max-width: 40rem;
+  margin: 2.5rem auto 3rem;
+  padding: 0 1.5rem;
+}
+
+.turn {
+  margin-bottom: 1.8rem;
+}
+
+.turn .who {
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 0.25rem;
+}
+
+.turn.lincoln .who { color: var(--oxblood); }
+
+.turn p.body {
+  white-space: pre-wrap;
+  hyphens: auto;
+}
+
+.turn.lincoln { border-left: 3px solid var(--rule); padding-left: 1rem; }
+.turn.lincoln p.body { font-style: italic; }
+
+.turn.pending p.body::after {
+  content: "\2026";
+  animation: ellipsis 1.2s steps(4, end) infinite;
+}
+
+@keyframes ellipsis {
+  0%   { content: ""; }
+  25%  { content: "."; }
+  50%  { content: ".."; }
+  75%  { content: "..."; }
+}
+
+.desk {
+  max-width: 40rem;
+  margin: 0 auto 4rem;
+  padding: 0 1.5rem;
+  position: sticky;
+  bottom: 0;
+  background: var(--paper);
+  border-top: 3px double var(--ink);
+  padding-top: 0.9rem;
+  padding-bottom: 1rem;
+}
+
+.desk form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.7rem;
+  align-items: end;
+}
+
+.desk label {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 0.35rem;
+}
+
+.desk textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 3.2rem;
+  background: transparent;
+  border: 1px solid var(--ink-soft);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  padding: 0.55rem 0.7rem;
+}
+.desk textarea:focus { outline: 2px solid var(--oxblood); outline-offset: -1px; }
+
+.desk button {
+  font-family: inherit;
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  font-size: 1rem;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 0.65rem 1.4rem;
+  cursor: pointer;
+}
+.desk button:hover { background: var(--oxblood); }
+.desk button:disabled { opacity: 0.45; cursor: default; }
+
+.desk .fineprint {
+  margin-top: 0.6rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.error-note {
+  color: var(--oxblood);
+  font-size: 0.88rem;
+  margin-top: 0.5rem;
+  display: none;
+}
+
+@media (max-width: 40rem) {
+  .desk form { grid-template-columns: 1fr; }
+  .desk button { width: 100%; }
+}
+
 /* ---------- colophon ---------- */
 
 .colophon {

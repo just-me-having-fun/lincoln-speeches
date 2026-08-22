@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ask Mr. Lincoln — The Lincoln Speeches</title>
+<meta name="description" content="Put a question to a correspondence bot grounded in six speeches of Abraham Lincoln. It speaks from the spring of 1865 and knows nothing after.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="kicker">A reading edition · public domain texts</p>
+  <h1><a href="/">The Lincoln Speeches</a></h1>
+  <nav>
+    <a href="/speeches/lyceum-1838.html">1838</a>
+    <a href="/speeches/house-divided-1858.html">1858</a>
+    <a href="/speeches/cooper-union-1860.html">1860</a>
+    <a href="/speeches/farewell-1861.html">1861</a>
+    <a href="/speeches/gettysburg-1863.html">1863</a>
+    <a href="/speeches/second-inaugural-1865.html">1865</a>
+    <a href="/ask.html" aria-current="page">Ask</a>
+  </nav>
+</header>
+
+<main>
+  <header class="speech-header">
+    <p class="date-place">Correspondence &middot; Washington, spring 1865</p>
+    <h2>Ask Mr. Lincoln</h2>
+  </header>
+
+  <aside class="editor-note">
+    <strong>What this is.</strong> A machine correspondent instructed to answer as Lincoln answered &mdash; in his plain register, grounded in the six speeches on this site and in his known record through March 4, 1865. It is an experiment, not a s&eacute;ance: it will be wrong sometimes, and it cannot know anything that came after its date. Fifteen questions to the hour, per caller.
+  </aside>
+
+  <section class="correspondence" id="thread" aria-live="polite"></section>
+
+  <section class="desk">
+    <form id="ask-form">
+      <div>
+        <label for="question">Your question</label>
+        <textarea id="question" maxlength="2000" rows="2" required
+          placeholder="Write as you would speak&hellip;"></textarea>
+      </div>
+      <button type="submit" id="send">Send</button>
+    </form>
+    <p class="error-note" id="error"></p>
+    <p class="fineprint">Replies are machine-written in period style and may be inaccurate. No history of your letters is kept beyond the present conversation.</p>
+  </section>
+</main>
+
+<footer class="colophon">
+  <p>Texts collated from the <em>Collected Works of Abraham Lincoln</em> (ed. Roy P. Basler et al.), Abraham Lincoln Online, and presidentialrhetoric.com. All are in the public domain.</p>
+  <p>Set in EB Garamond. Correspondence handled by a server-side function; no analytics, no cookies.</p>
+</footer>
+
+<script>
+(function () {
+  var form = document.getElementById("ask-form");
+  var input = document.getElementById("question");
+  var send = document.getElementById("send");
+  var thread = document.getElementById("thread");
+  var errorBox = document.getElementById("error");
+  var history = [];
+
+  function addTurn(who, cls) {
+    var turn = document.createElement("article");
+    turn.className = "turn " + cls;
+    var whoEl = document.createElement("p");
+    whoEl.className = "who";
+    whoEl.textContent = who;
+    var bodyEl = document.createElement("p");
+    bodyEl.className = "body";
+    turn.appendChild(whoEl);
+    turn.appendChild(bodyEl);
+    thread.appendChild(turn);
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    return bodyEl;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var q = input.value.trim();
+    if (!q || send.disabled) return;
+
+    errorBox.style.display = "none";
+    input.value = "";
+    send.disabled = true;
+
+    addTurn("You", "you").textContent = q;
+    var pending = addTurn("Mr. Lincoln", "lincoln pending");
+
+    fetch("/api/lincoln", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: history.concat([{ role: "user", content: q }]) })
+    })
+      .then(function (r) {
+        if (!r.ok) return r.json().then(function (j) { throw new Error(j.error || "Error " + r.status); });
+        return r.json();
+      })
+      .then(function (data) {
+        pending.textContent = data.reply;
+        history.push({ role: "user", content: q });
+        history.push({ role: "assistant", content: data.reply });
+        if (history.length > 16) history = history.slice(-16);
+      })
+      .catch(function (err) {
+        pending.parentNode.remove();
+        errorBox.textContent = err.message || "The reply did not arrive. Try again.";
+        errorBox.style.display = "block";
+        input.value = q;
+      })
+      .finally(function () {
+        send.disabled = false;
+        input.focus();
+      });
+  });
+})();
+</script>
+
+</body>
+</html>
