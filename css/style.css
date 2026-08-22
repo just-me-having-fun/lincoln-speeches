@@ -1,0 +1,256 @@
+/* The Lincoln Speeches — a reading edition.
+   Set in EB Garamond; ink on paper; hairlines instead of cards. */
+
+:root {
+  --paper: #f6f1e5;
+  --paper-dark: #ede6d4;
+  --ink: #221d14;
+  --ink-soft: #574e3e;
+  --oxblood: #7a2718;
+  --rule: #c9bfa8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { font-size: 100%; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "EB Garamond", Garamond, "Palatino Linotype", Palatino, Georgia, serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--oxblood); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-style: dotted; }
+
+/* ---------- masthead ---------- */
+
+.masthead {
+  border-bottom: 3px double var(--ink);
+  padding: 2.2rem 1.5rem 1.4rem;
+  max-width: 74rem;
+  margin: 0 auto;
+}
+
+.masthead .kicker {
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.masthead h1 {
+  font-weight: 500;
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.05;
+  margin-top: 0.35rem;
+}
+
+.masthead h1 a { color: inherit; text-decoration: none; }
+
+.masthead nav {
+  margin-top: 0.9rem;
+  display: flex;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.masthead nav a { color: var(--ink); text-decoration: none; }
+.masthead nav a:hover { color: var(--oxblood); text-decoration: underline; }
+
+/* ---------- index ---------- */
+
+.frontis {
+  max-width: 46rem;
+  margin: 3rem auto 1rem;
+  padding: 0 1.5rem;
+}
+
+.frontis p.lede {
+  font-size: 1.25rem;
+  line-height: 1.55;
+}
+
+.frontis p.note {
+  margin-top: 1.2rem;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.almanac {
+  max-width: 52rem;
+  margin: 2.5rem auto 4rem;
+  padding: 0 1.5rem;
+}
+
+.almanac h2 {
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.speech-row {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr auto;
+  gap: 1.25rem;
+  align-items: baseline;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.speech-row .date {
+  font-feature-settings: "onum";
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.speech-row .title {
+  font-size: 1.35rem;
+  line-height: 1.3;
+}
+.speech-row .title a {
+  color: var(--ink);
+  text-decoration: none;
+}
+.speech-row .title a:hover { color: var(--oxblood); text-decoration: underline; }
+.speech-row .place {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  margin-top: 0.15rem;
+}
+
+.speech-row .length {
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+@media (max-width: 40rem) {
+  .speech-row { grid-template-columns: 1fr; gap: 0.2rem; }
+  .speech-row .length { display: none; }
+}
+
+/* ---------- speech pages ---------- */
+
+.speech-header {
+  max-width: 46rem;
+  margin: 3rem auto 0;
+  padding: 0 1.5rem;
+}
+
+.speech-header .date-place {
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--oxblood);
+}
+
+.speech-header h2 {
+  font-weight: 500;
+  font-size: clamp(1.9rem, 4vw, 2.7rem);
+  line-height: 1.12;
+  margin-top: 0.4rem;
+  font-variant: small-caps;
+  letter-spacing: 0.02em;
+}
+
+.editor-note {
+  max-width: 46rem;
+  margin: 1.6rem auto 0;
+  padding: 1rem 1.5rem;
+  border-left: 3px solid var(--oxblood);
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+}
+.editor-note strong {
+  font-weight: 600;
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+
+.transcript {
+  max-width: 40rem;
+  margin: 2.5rem auto 3rem;
+  padding: 0 1.5rem;
+}
+
+.transcript .salut {
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+}
+
+.transcript p {
+  margin-bottom: 1.35em;
+  hyphens: auto;
+}
+
+.transcript > p:first-of-type::first-letter,
+.transcript > p.dropcap::first-letter {
+  float: left;
+  font-size: 3.6em;
+  line-height: 0.82;
+  padding-right: 0.09em;
+  padding-top: 0.06em;
+  color: var(--oxblood);
+  font-weight: 500;
+}
+
+.closing-name {
+  text-align: right;
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  margin-top: 2rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 1rem;
+}
+
+.source-note {
+  max-width: 46rem;
+  margin: 0 auto 2.5rem;
+  padding: 0 1.5rem 2.5rem;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+}
+
+.pager {
+  max-width: 46rem;
+  margin: 0 auto 4rem;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.pager a { text-decoration: none; }
+.pager a:hover { text-decoration: underline; }
+.pager span { color: var(--ink-soft); }
+
+/* ---------- colophon ---------- */
+
+.colophon {
+  border-top: 3px double var(--ink);
+  max-width: 74rem;
+  margin: 0 auto;
+  padding: 1.6rem 1.5rem 2.6rem;
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+}
+.colophon p + p { margin-top: 0.5em; }
